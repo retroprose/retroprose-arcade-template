@@ -157,9 +157,16 @@ class Main {
     }
 
     resize() {
-        // center text
-        //this.displayText.x = window.innerWidth / 2.0;
-        //this.displayText.y = window.innerHeight / 2.0;
+        // center text (make the stalling X be put in the upper left corner)
+        if (this.displayText.text == 'X') {
+            this.displayText.x = 0;
+            this.displayText.y = 0;
+            this.displayText.anchor.set(0.0);
+        } else {
+            this.displayText.x = window.innerWidth / 2.0;
+            this.displayText.y = window.innerHeight / 2.0;
+            this.displayText.anchor.set(0.5);
+        }
 
         // scale invader screen
         const scaleX = window.innerWidth / this.container.virtualWidth;
