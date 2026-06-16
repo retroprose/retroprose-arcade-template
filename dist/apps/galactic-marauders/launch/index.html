@@ -82,7 +82,7 @@
 						<input id="password" type="password" value="" style="width: 100%;"  /><br />
 						<h3>Configure</h3>
 						<button onclick="refreshConfig();">Refresh</button><button onclick="updateConfig();">Update</button><br />
-						<textarea id="settings" style="width: 100%; height: 200px;"></textarea><br />
+						<textarea id="settings" style="width: 100%; height: 300px;"></textarea><br />
 					</div>
 				</div>
 			</div>
@@ -239,7 +239,7 @@
 						if (entry.user == null) {
 							list.push(`<tr><td><button disabled>Kick</button></td><th scope="row">__UNOCCUPIED__</th><td>false</td></tr>`);
 						} else {
-							list.push(`<tr><td><button onclick="kick(${index});">Kick</button></td></tr><th scope="row">${entry.user.name}</th><td>${entry.connected}</td>`);
+							list.push(`<tr><td><button onclick="kick(${index});">Kick</button></td><th scope="row">${entry.user.name}</th><td>${entry.connected}</td></tr>`);
 						}
 						++index;
 					}
