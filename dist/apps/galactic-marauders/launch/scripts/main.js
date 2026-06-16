@@ -38,8 +38,7 @@ class Main {
             style: {
                 fill: '#ffffff',
                 fontSize: 24
-            },
-            anchor: 0.5
+            }
         });
         this.pixi.stage.addChild(this.displayText);
 
@@ -131,7 +130,7 @@ class Main {
         
             // hide display text
             this.displayText.visible = false;
-            this.displayText.text = 'Stalled';
+            this.displayText.text = 'X';
 
             this.game.setup({
                 seed: seed,
@@ -159,8 +158,8 @@ class Main {
 
     resize() {
         // center text
-        this.displayText.x = window.innerWidth / 2.0;
-        this.displayText.y = window.innerHeight / 2.0;
+        //this.displayText.x = window.innerWidth / 2.0;
+        //this.displayText.y = window.innerHeight / 2.0;
 
         // scale invader screen
         const scaleX = window.innerWidth / this.container.virtualWidth;
