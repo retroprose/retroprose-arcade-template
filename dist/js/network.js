@@ -44,6 +44,10 @@ class FakeNetwork {
         }, 1000);
     }
 
+    close() {
+        // do nothing
+    }
+
     ready() {
         // do nothing?
     }
@@ -187,6 +191,10 @@ class StaggeredNetwork {
         this.tickCounter = 0;
     
         return this;
+    }
+
+    close() {
+        this.socket.close();
     }
 
     ready() {

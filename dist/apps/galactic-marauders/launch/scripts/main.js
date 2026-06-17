@@ -8,14 +8,17 @@ class Main {
         document.body.appendChild(this.pixi.canvas);
         PIXI.TextureStyle.defaultOptions.scaleMode = 'nearest';					
 
+        // create the C++ game object
         this.game = new Module.BindGame();
 
+        // load the galactic marauders texture
         this.texture = undefined;
         PIXI.Assets.load('./images/invaders-sprite.json').then((texture) => {
             this.texture = texture;
         });
         this.renderObjectIndex = 0;
 
+        // add reference to passed config data
         this.config = config;
 
         // container for game objects
@@ -24,10 +27,7 @@ class Main {
         this.container.virtualHeight = 540 * 2;
         this.pixi.stage.addChild(this.container);
 
-        this.debugTouchIndex = 0;
-        this.debugTouch = new PIXI.Container();
-        this.pixi.stage.addChild(this.debugTouch);
-
+        // add network visualizer for debuggong
         this.visualizer = new NetworkVisualizer();
         this.visualizer.visible = false;
         this.pixi.stage.addChild(this.visualizer);
@@ -41,9 +41,16 @@ class Main {
             }
         });
         this.pixi.stage.addChild(this.displayText);
+        
+        // compute screen dimensions
+        this.resize();
 
         // event listeners
-        this.resize();
+        
+        // I'm just going to have this happen server side
+        //document.addEventListener("visibilitychange", () => this.network.close());
+        //window.addEventListener("blur", () => this.network.close());
+        
         window.addEventListener("resize", () => this.resize());
 
         window.addEventListener('touchstart', (e) => e.preventDefault());
@@ -224,28 +231,11 @@ class Main {
             for (let i = this.renderObjectIndex; i < this.container.children.length; ++i) {
                 this.container.children[i].visible = false;
             }
-
-            // debug touch
-            this.debugTouchIndex = 0;
-            for (let k in this.pointerList) {
-                if (this.debugTouch.children.length <= this.debugTouchIndex) {
-                    this.debugTouch.addChild(new PIXI.Sprite());
-                }
-                let sprite = this.debugTouch.children[this.debugTouchIndex++];
-                sprite.anchor.set(0.5);
-                sprite.visible = true;
-                sprite.texture = this.texture.textures[62];
-                sprite.x = this.pointerList[k].x;
-                sprite.y = this.pointerList[k].y;
-                sprite.scale.set(64.0);
-            }
-            for (let i = this.debugTouchIndex; i < this.debugTouch.children.length; ++i) {
-                this.debugTouch.children[i].visible = false;
-            }
         }
 
         this.displayText.visible = this.network.stalled;
 
+        // update the network visualizer
         if (this.visualizer.visible) {
             this.visualizer.update(this.network);
         }
@@ -256,6 +246,7 @@ class Main {
         }
     }
 
+    // called from the C++ code
     // x, y, frame, scale, color
     sprite(x, y, frame, scale, alpha) {
         if (this.container.children.length <= this.renderObjectIndex) {
